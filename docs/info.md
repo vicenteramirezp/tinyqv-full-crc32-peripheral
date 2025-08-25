@@ -31,7 +31,7 @@ Document the registers that are used to interact with your peripheral
 
 ## How to test
 
-Explain how to use your project
+TBD
 
 ## External hardware
 
