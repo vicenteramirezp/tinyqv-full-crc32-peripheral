@@ -172,6 +172,21 @@
      // List all unused inputs to prevent warnings
      // data_read_n is unused as none of our behaviour depends on whether
      // registers are being read.
-     wire _unused = &{uo_out,data_read_n,1'b0};
+
+    always @(posedge clk) begin
+        if (!rst_n) begin
+            example_interrupt <= 0;
+        end
+        if (ui_in[0] && !last_ui_in_6) begin
+            example_interrupt <= 1;
+        end else if (address == 6'h8 && data_write_n != 2'b11 && data_in[7]) begin
+            example_interrupt <= 0;
+        end
+
+        last_ui_in_6 <= ui_in[0];
+    end
+    assign user_interrupt = example_interrupt;
+
+     wire _unused = &{uo_out,ui_in[7:1],data_read_n,1'b0};
  
  endmodule

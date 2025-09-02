@@ -15,8 +15,9 @@ module fifo8_fwft  (
     // optional status
     output reg  [3:0] count
 );
-
-    localparam  AW = 3;
+wire empty;
+wire full;
+   
 
     // storage
     reg [7:0] mem [0:7];
@@ -26,8 +27,7 @@ module fifo8_fwft  (
 
     // status
     assign empty = (count == 0);
-    wire empty;
-    wire full;
+    assign full = (count == 8);
     // continuous assignment: oldest entry is visible
     assign dout = (!empty) ? mem[rptr] : 8'h00;
 
