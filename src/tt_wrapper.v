@@ -38,7 +38,21 @@ module tt_um_tqv_peripheral_harness (
 
   // The peripheral under test.
   // **** Change the module name from tqvp_example to match your peripheral. ****
-  tqvp_example user_peripheral(
+  // tqvp_example user_peripheral(
+  //   .clk(clk),
+  //   .rst_n(rst_reg_n),
+  //   .ui_in(ui_in_sync),
+  //   .uo_out(uo_out),
+  //   .address(address),
+  //   .data_in(data_in),
+  //   .data_write_n(data_write_n),
+  //   .data_read_n(data_read_n),
+  //   .data_out(data_out),
+  //   .data_ready(data_ready),
+  //   .user_interrupt(user_interrupt)
+  // );
+
+  crc_wrapper  crc_wrapper_inst (
     .clk(clk),
     .rst_n(rst_reg_n),
     .ui_in(ui_in_sync),
