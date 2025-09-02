@@ -170,22 +170,23 @@ always @( posedge clk ) begin
 
 
 
-    reg done_pulse,done_prev;
+    reg done_pulse_reg,done_prev;
     always @( posedge clk ) begin 
     if (rst) begin
-        done_pulse <= 0;
+        done_pulse_reg <= 0;
         done_prev <= 0;
     end
     else if(done_prev!=crc_finished) begin
-        done_pulse<=crc_finished;
+        done_pulse_reg<=crc_finished;
         done_prev <= crc_finished;
     end
     else begin
-        done_pulse<=0;
+        done_pulse_reg<=0;
         done_prev <= crc_finished;
     end
     end
-    
+
+    assign done_pulse=done_pulse_reg;
 
 
 endmodule
