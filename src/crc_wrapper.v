@@ -160,7 +160,6 @@
         .data_done(data_done),
         .crc_32_in(lsb_out),
         .RefIn(Config_reg[0]),
-        .RefOut(Config_reg[0]),
         .Xor_out(Config_reg[1]),
         .Init(Config_reg[2]),
         .POLY_in(Poly),

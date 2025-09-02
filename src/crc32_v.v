@@ -26,7 +26,6 @@ module crc32_v(
     input  data_done,
     input  [7:0] crc_32_in,
     input  RefIn,
-    input  RefOut,
     input  Xor_out,
     input  Init,
     input  [31:0]POLY_in,
