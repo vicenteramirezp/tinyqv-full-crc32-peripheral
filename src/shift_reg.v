@@ -24,6 +24,9 @@ module fifo8_fwft  (
     // pointers
     reg [2:0] wptr, rptr;
 
+    // status
+    assign empty = (count == 0);
+    wire empty;
 
     // continuous assignment: oldest entry is visible
     assign dout = (!empty) ? mem[rptr] : 8'h00;
