@@ -127,10 +127,8 @@
     .rst_n(rst_n),
     .en(data_en),
     .din(input_data),
-    .full(),
     .done(crc_done),
     .dout(lsb_out),
-    .empty(),
     .count(count)
   );
 

@@ -7,12 +7,10 @@ module fifo8_fwft  (
     // write side
     input  wire       en,        // write enable
     input  wire [7:0] din,       // data in
-    output wire       full,
 
     // read side
     input  wire       done,      // consume/advance
     output wire [7:0] dout,      // always shows oldest data
-    output wire       empty,
 
     // optional status
     output reg  [3:0] count
@@ -25,10 +23,6 @@ module fifo8_fwft  (
 
     // pointers
     reg [2:0] wptr, rptr;
-
-    // status
-    assign empty = (count == 0);
-    assign full  = (count == 8);
 
 
     // continuous assignment: oldest entry is visible
