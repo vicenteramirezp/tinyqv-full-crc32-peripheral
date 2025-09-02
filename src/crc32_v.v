@@ -62,7 +62,7 @@ reg [2:0] state,next_state;
 
 reg crc_busy_reg;
 reg crc_finished_reg;
-
+wire crc_finished;
 assign  crc_busy=crc_busy_reg;
 assign  crc_finished=crc_finished_reg;
 
