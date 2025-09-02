@@ -172,7 +172,7 @@
      // List all unused inputs to prevent warnings
      // data_read_n is unused as none of our behaviour depends on whether
      // registers are being read.
-
+      reg last_ui_in_6;
       reg example_interrupt;
     always @(posedge clk) begin
         if (!rst_n) begin
