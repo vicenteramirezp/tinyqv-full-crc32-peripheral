@@ -188,6 +188,6 @@
     end
     assign user_interrupt = example_interrupt;
 
-     wire _unused = &{uo_out,ui_in[7:1],data_read_n,1'b0};
+     wire _unused = &{ui_in[7:1],data_read_n,1'b0};
  
  endmodule
