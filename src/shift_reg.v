@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module fifo8_fwft  (
+module fifo8_fwft(
     input  wire       clk,
     input  wire       rst_n,     // active-low synchronous reset
 
@@ -15,10 +15,10 @@ module fifo8_fwft  (
     // optional status
     output reg  [3:0] count
 );
-wire empty;
-wire full;
-   
 
+    wire empty;
+    wire full;
+   
     // storage
     reg [7:0] mem [0:7];
 
