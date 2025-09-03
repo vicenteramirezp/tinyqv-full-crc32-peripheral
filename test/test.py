@@ -46,7 +46,7 @@ async def test_project(dut):
     for i in range(10):
         await tqv.write_word_reg(0x8, 0x31+i)
         await ClockCycles(dut.clk, 150)
-        crc = binascii.crc32(0x31+i, crc)
+        crc = binascii.crc32(bytes(0x31+i), crc)
     await tqv.write_byte_reg(0x0,0x00)
     assert await tqv.read_word_reg(0xC) == crc
 
