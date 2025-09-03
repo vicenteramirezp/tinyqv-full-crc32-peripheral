@@ -37,16 +37,16 @@ async def test_project(dut):
     ## Configure peripheral
     # Step 1: reset peripheral via config
     await tqv.write_byte_reg(0x0,0x0)
-    await tqv.write_byte_reg(0x4, 0b110) #RefIn RefOut high, XOR output
+    await tqv.write_byte_reg(0x4, 0b100) #RefIn RefOut high, XOR output
     await tqv.write_word_reg(0x10, 0x04C11DB7)
     
-    crc = 0 # init value
+    crc = ~0x0 # init value
     # Enable peripheral input and start sending data
     await tqv.write_byte_reg(0x0,0xFF)
-    for i in range(10):
-        await tqv.write_word_reg(0x8, 0x31+i)
+    data = b'123456789'
+    for word in data:
+        await tqv.write_byte_reg(0x8, int(word))
         await ClockCycles(dut.clk, 150)
-        crc = binascii.crc32(bytes(0x31+i), crc)
+    assert await tqv.read_word_reg(0xC) == 0x0376E6E7 # MPEG-2
     await tqv.write_byte_reg(0x0,0x00)
-    assert await tqv.read_word_reg(0xC) == crc
 
