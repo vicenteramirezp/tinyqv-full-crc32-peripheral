@@ -14,6 +14,22 @@ import binascii
 # The peripheral number is not used by the test harness.
 PERIPHERAL_NUM = 0
 
+# CRC testing function
+async def crc32_test(tqv, dut, data, poly, ref, xor, init):
+    # Step 1: reset peripheral via config
+    await tqv.write_byte_reg(0x0,0x0)
+
+    config = (ref) | (xor << 1) | (init << 2)
+    await tqv.write_byte_reg(0x4, config) #RefIn RefOut high, XOR output
+    await tqv.write_word_reg(0x10, poly)
+
+    # Step 2: Enable peripheral input and start sending data
+    await tqv.write_byte_reg(0x0, 0xFF)
+    for byte in data:
+        await tqv.write_byte_reg(0x8, int(byte))
+        await ClockCycles(dut.clk, 60)
+    return await tqv.read_word_reg(0xC)
+
 @cocotb.test()
 async def test_project(dut):
     dut._log.info("Start")
@@ -34,19 +50,22 @@ async def test_project(dut):
 
     dut._log.info("Test project behavior")
 
-    ## Configure peripheral
-    # Step 1: reset peripheral via config
-    await tqv.write_byte_reg(0x0,0x0)
-    await tqv.write_byte_reg(0x4, 0b100) #RefIn RefOut high, XOR output
-    await tqv.write_word_reg(0x10, 0x04C11DB7)
+    # crc_test signature:
+    # tqv, dut, data, poly, ref, xor, init
+    # MPEG-2
+    out = await crc32_test(tqv, dut, b'123456789', 0x04C11DB7, 0, 0, 1)
+    assert out == 0x0376E6E7
+
+    # ISO-HDLC
+    out = await crc32_test(tqv, dut, b'123456789', 0x04C11DB7, 1, 1, 1)
+    assert out == 0xCBF43926
+
+    # BZIP2
+    out = await crc32_test(tqv, dut, b'123456789', 0x04C11DB7, 0, 1, 1)
+    assert out == 0xFC891918
     
-    crc = ~0x0 # init value
-    # Enable peripheral input and start sending data
-    await tqv.write_byte_reg(0x0,0xFF)
-    data = b'123456789'
-    for word in data:
-        await tqv.write_byte_reg(0x8, int(word))
-        await ClockCycles(dut.clk, 150)
-    assert await tqv.read_word_reg(0xC) == 0x0376E6E7 # MPEG-2
-    await tqv.write_byte_reg(0x0,0x00)
+    # AIXM
+    out = await crc32_test(tqv, dut, b'123456789', 0x814141AB, 0, 0, 0)
+    assert out == 0x3010BF7F
+
 
