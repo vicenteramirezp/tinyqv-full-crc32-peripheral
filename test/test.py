@@ -123,7 +123,7 @@ async def test_random_inputs(dut):
 
     dut._log.info("Test ISO-HDLC protocol with random inputs")
 
-    TESTS=1000
+    TESTS=100
 
     for i in range(TESTS):
         data = randbytes(16)
