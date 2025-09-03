@@ -13,7 +13,7 @@ You can also include images in this folder and reference them in the markdown. E
 
 # CRC32 Peripheral
 
-Author: Vicente Ramirez
+Author: Vicente Ramirez & Francisco Aguirre
 
 Peripheral index: nn
 
